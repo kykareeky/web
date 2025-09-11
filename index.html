@@ -12,13 +12,14 @@
 <body>
   <header class="header">
     <div class="container header__row">
-      <a class="logo" href="#">Polytea</a>
+      <a class="logo" href="index.html">Polytea</a>
       <nav class="nav" aria-label="Основная навигация">
         <ul class="nav__list">
           <li><a href="#about">О нас</a></li>
           <li><a href="#products">Каталог</a></li>
           <li><a href="#gallery">Галерея</a></li>
           <li><a href="#contacts">Контакты</a></li>
+          <li><a href="login.html">Вход</a></li>
         </ul>
       </nav>
     </div>
@@ -107,10 +108,77 @@
     <section id="contacts" class="section">
       <div class="container">
         <h2>Контакты</h2>
-        <p>Заказ и консультация: <a href="tel:+74952230523">+7 (495) 223-05-23</a></p>
-        <p>Эл. почта: <a href="mailto:Polytea@mail.ru">teapolytechnia@mail.ru</a></p>
-        <p>Адрес: г. Москва, ул. Большая Семёновская, 38</p>
-        <p>Время работы: ежедневно с 10:00 до 21:00</p>
+        <div class="contact-info">
+          <p>Заказ и консультация: <a href="tel:+74952230523">+7 (495) 223-05-23</a></p>
+          <p>Эл. почта: <a href="mailto:Polytea@mail.ru">teapolytechnia@mail.ru</a></p>
+          <p>Адрес: г. Москва, ул. Большая Семёновская, 38</p>
+          <p>Время работы: ежедневно с 10:00 до 21:00</p>
+        </div>
+        
+        <div class="feedback-form">
+          <h3>Форма обратной связи</h3>
+          <form id="feedbackForm" method="POST" action="https://httpbin.org/post" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="name">ФИО:</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+              <label>Откуда узнали о нас:</label>
+              <div class="radio-group">
+                <label>
+                  <input type="radio" name="source" value="search" required>
+                  Поиск в интернете
+                </label>
+                <label>
+                  <input type="radio" name="source" value="friends">
+                  От друзей
+                </label>
+                <label>
+                  <input type="radio" name="source" value="social">
+                  Социальные сети
+                </label>
+                <label>
+                  <input type="radio" name="source" value="other">
+                  Другое
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="type">Тип обращения:</label>
+              <select id="type" name="type" required>
+                <option value="">Выберите тип обращения</option>
+                <option value="complaint">Жалоба</option>
+                <option value="suggestion">Предложение</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="message">Текст сообщения:</label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="attachment">Вложения:</label>
+              <input type="file" id="attachment" name="attachment">
+            </div>
+            
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="consent" required>
+                <span>Даю согласие на обработку персональных данных</span>
+              </label>
+            </div>
+            
+            <button type="submit" class="btn">Отправить</button>
+          </form>
+        </div>
       </div>
     </section>
   </main>
