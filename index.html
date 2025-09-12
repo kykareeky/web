@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="print.css" media="print">
 </head>
 <body>
   <header class="header">
@@ -18,6 +19,7 @@
           <li><a href="#about">О нас</a></li>
           <li><a href="#products">Каталог</a></li>
           <li><a href="#gallery">Галерея</a></li>
+          <li><a href="traditions.html">Традиции</a></li>
           <li><a href="#contacts">Контакты</a></li>
           <li><a href="login.html">Вход</a></li>
         </ul>
@@ -43,54 +45,104 @@
     <section id="products" class="section">
       <div class="container">
         <h2>Популярные сорта чая</h2>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Название</th>
-              <th>Тип</th>
-              <th>Происхождение</th>
-              <th>Цена за 100г</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Дянь Хун</td>
-              <td>Красный чай</td>
-              <td>Китай, Юньнань</td>
-              <td>850 ₽</td>
-            </tr>
-            <tr>
-              <td>Сенча</td>
-              <td>Зелёный чай</td>
-              <td>Япония, Кагосима</td>
-              <td>750 ₽</td>
-            </tr>
-            <tr>
-              <td>Улун Те Гуань Инь</td>
-              <td>Улун</td>
-              <td>Китай, Фуцзянь</td>
-              <td>920 ₽</td>
-            </tr>
-            <tr>
-              <td>Ассам</td>
-              <td>Чёрный чай</td>
-              <td>Индия, Ассам</td>
-              <td>650 ₽</td>
-            </tr>
-            <tr>
-              <td>Пуэр Шу</td>
-              <td>Пуэр</td>
-              <td>Китай, Юньнань</td>
-              <td>1100 ₽</td>
-            </tr>
-            <tr>
-              <td>Анчан</td>
-              <td>Пурпурный чай»</td>
-              <td>Китай, Юньнань</td>
-              <td>1140 ₽</td>
-            </tr>
-          </tbody>
-        </table>
+        
+        <!-- Карточки продуктов (новая версия с флексбоксами) -->
+        <div class="products-container">
+          <div class="product-card">
+            <h3>Дянь Хун</h3>
+            <p><strong>Тип:</strong> Красный чай</p>
+            <p><strong>Происхождение:</strong> Китай, Юньнань</p>
+            <p class="product-price">850 ₽ / 100г</p>
+          </div>
+          
+          <div class="product-card">
+            <h3>Сенча</h3>
+            <p><strong>Тип:</strong> Зелёный чай</p>
+            <p><strong>Происхождение:</strong> Япония, Кагосима</p>
+            <p class="product-price">750 ₽ / 100г</p>
+          </div>
+          
+          <div class="product-card">
+            <h3>Улун Те Гуань Инь</h3>
+            <p><strong>Тип:</strong> Улун</p>
+            <p><strong>Происхождение:</strong> Китай, Фуцзянь</p>
+            <p class="product-price">920 ₽ / 100г</p>
+          </div>
+          
+          <div class="product-card">
+            <h3>Ассам</h3>
+            <p><strong>Тип:</strong> Чёрный чай</p>
+            <p><strong>Происхождение:</strong> Индия, Ассам</p>
+            <p class="product-price">650 ₽ / 100г</p>
+          </div>
+          
+          <div class="product-card">
+            <h3>Пуэр Шу</h3>
+            <p><strong>Тип:</strong> Пуэр</p>
+            <p><strong>Происхождение:</strong> Китай, Юньнань</p>
+            <p class="product-price">1100 ₽ / 100г</p>
+          </div>
+          
+          <div class="product-card">
+            <h3>Анчан</h3>
+            <p><strong>Тип:</strong> Пурпурный чай</p>
+            <p><strong>Происхождение:</strong> Китай, Юньнань</p>
+            <p class="product-price">1140 ₽ / 100г</p>
+          </div>
+        </div>
+        
+        <!-- Таблица (оставлена для сравнения) -->
+        <details>
+          <summary>Посмотреть в виде таблицы</summary>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Название</th>
+                <th>Тип</th>
+                <th>Происхождение</th>
+                <th>Цена за 100г</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Дянь Хун</td>
+                <td>Красный чай</td>
+                <td>Китай, Юньнань</td>
+                <td>850 ₽</td>
+              </tr>
+              <tr>
+                <td>Сенча</td>
+                <td>Зелёный чай</td>
+                <td>Япония, Кагосима</td>
+                <td>750 ₽</td>
+              </tr>
+              <tr>
+                <td>Улун Те Гуань Инь</td>
+                <td>Улун</td>
+                <td>Китай, Фуцзянь</td>
+                <td>920 ₽</td>
+              </tr>
+              <tr>
+                <td>Ассам</td>
+                <td>Чёрный чай</td>
+                <td>Индия, Ассам</td>
+                <td>650 ₽</td>
+              </tr>
+              <tr>
+                <td>Пуэр Шу</td>
+                <td>Пуэр</td>
+                <td>Китай, Юньнань</td>
+                <td>1100 ₽</td>
+              </tr>
+              <tr>
+                <td>Анчан</td>
+                <td>Пурпурный чай</td>
+                <td>Китай, Юньнань</td>
+                <td>1140 ₽</td>
+              </tr>
+            </tbody>
+          </table>
+        </details>
       </div>
     </section>
 
