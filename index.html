@@ -20,6 +20,7 @@
           <li><a href="#products">Каталог</a></li>
           <li><a href="#gallery">Галерея</a></li>
           <li><a href="traditions.html">Традиции</a></li>
+          <li><a href="order.html">Заказ</a></li>
           <li><a href="#contacts">Контакты</a></li>
           <li><a href="login.html">Вход</a></li>
         </ul>
@@ -33,7 +34,12 @@
         <div class="hero__content">
           <h1>Искусство чая в каждой чашке</h1>
           <p>Откройте для себя мир изысканных чаёв со всего света. Мы тщательно отбираем только лучшие сорта, чтобы вы могли насладиться неповторимым вкусом и ароматом в каждой чашке.</p>
-          <a href="#products" class="btn">В каталог</a>
+          <div class="hero-buttons">
+            <a href="#products" class="btn">В каталог</a>
+            <a href="order.html" class="btn btn-secondary">Оформить заказ</a>
+            <!-- Добавленная кнопка -->
+            <a href="order.html" class="btn btn-accent">Быстрый заказ</a>
+          </div>
         </div>
         <figure class="hero__image">
           <img src="https://cdn1.ozone.ru/s3/multimedia-n/6239588123.jpg" alt="Элитные сорта чая в прозрачных банках">
@@ -53,6 +59,8 @@
             <p><strong>Тип:</strong> Красный чай</p>
             <p><strong>Происхождение:</strong> Китай, Юньнань</p>
             <p class="product-price">850 ₽ / 100г</p>
+            <!-- Добавленная кнопка в карточку товара -->
+            <a href="order.html" class="btn btn-small">Заказать</a>
           </div>
           
           <div class="product-card">
@@ -60,6 +68,8 @@
             <p><strong>Тип:</strong> Зелёный чай</p>
             <p><strong>Происхождение:</strong> Япония, Кагосима</p>
             <p class="product-price">750 ₽ / 100г</p>
+            <!-- Добавленная кнопка в карточку товара -->
+            <a href="order.html" class="btn btn-small">Заказать</a>
           </div>
           
           <div class="product-card">
@@ -67,6 +77,8 @@
             <p><strong>Тип:</strong> Улун</p>
             <p><strong>Происхождение:</strong> Китай, Фуцзянь</p>
             <p class="product-price">920 ₽ / 100г</p>
+            <!-- Добавленная кнопка в карточку товара -->
+            <a href="order.html" class="btn btn-small">Заказать</a>
           </div>
           
           <div class="product-card">
@@ -74,6 +86,8 @@
             <p><strong>Тип:</strong> Чёрный чай</p>
             <p><strong>Происхождение:</strong> Индия, Ассам</p>
             <p class="product-price">650 ₽ / 100г</p>
+            <!-- Добавленная кнопка в карточку товара -->
+            <a href="order.html" class="btn btn-small">Заказать</a>
           </div>
           
           <div class="product-card">
@@ -81,6 +95,8 @@
             <p><strong>Тип:</strong> Пуэр</p>
             <p><strong>Происхождение:</strong> Китай, Юньнань</p>
             <p class="product-price">1100 ₽ / 100г</p>
+            <!-- Добавленная кнопка в карточку товара -->
+            <a href="order.html" class="btn btn-small">Заказать</a>
           </div>
           
           <div class="product-card">
@@ -88,7 +104,14 @@
             <p><strong>Тип:</strong> Пурпурный чай</p>
             <p><strong>Происхождение:</strong> Китай, Юньнань</p>
             <p class="product-price">1140 ₽ / 100г</p>
+            <!-- Добавленная кнопка в карточку товара -->
+            <a href="order.html" class="btn btn-small">Заказать</a>
           </div>
+        </div>
+        
+        <!-- Кнопка для перехода к заказу -->
+        <div style="text-align: center; margin-top: 40px;">
+          <a href="order.html" class="btn btn-large">Перейти к оформлению заказа</a>
         </div>
         
         <!-- Таблица (оставлена для сравнения) -->
@@ -101,6 +124,7 @@
                 <th>Тип</th>
                 <th>Происхождение</th>
                 <th>Цена за 100г</th>
+                <th>Действие</th> <!-- Добавлен столбец для кнопки -->
               </tr>
             </thead>
             <tbody>
@@ -109,36 +133,42 @@
                 <td>Красный чай</td>
                 <td>Китай, Юньнань</td>
                 <td>850 ₽</td>
+                <td><a href="order.html" class="btn btn-small">Заказать</a></td> <!-- Добавленная кнопка -->
               </tr>
               <tr>
                 <td>Сенча</td>
                 <td>Зелёный чай</td>
                 <td>Япония, Кагосима</td>
                 <td>750 ₽</td>
+                <td><a href="order.html" class="btn btn-small">Заказать</a></td> <!-- Добавленная кнопка -->
               </tr>
               <tr>
                 <td>Улун Те Гуань Инь</td>
                 <td>Улун</td>
                 <td>Китай, Фуцзянь</td>
                 <td>920 ₽</td>
+                <td><a href="order.html" class="btn btn-small">Заказать</a></td> <!-- Добавленная кнопка -->
               </tr>
               <tr>
                 <td>Ассам</td>
                 <td>Чёрный чай</td>
                 <td>Индия, Ассам</td>
                 <td>650 ₽</td>
+                <td><a href="order.html" class="btn btn-small">Заказать</a></td> <!-- Добавленная кнопка -->
               </tr>
               <tr>
                 <td>Пуэр Шу</td>
                 <td>Пуэр</td>
                 <td>Китай, Юньнань</td>
                 <td>1100 ₽</td>
+                <td><a href="order.html" class="btn btn-small">Заказать</a></td> <!-- Добавленная кнопка -->
               </tr>
               <tr>
                 <td>Анчан</td>
                 <td>Пурпурный чай</td>
                 <td>Китай, Юньнань</td>
                 <td>1140 ₽</td>
+                <td><a href="order.html" class="btn btn-small">Заказать</a></td> <!-- Добавленная кнопка -->
               </tr>
             </tbody>
           </table>
@@ -153,6 +183,10 @@
           <img src="https://i.pinimg.com/originals/ef/68/aa/ef68aa59779978f1ccf0bdfcc23bf73d.jpg?nii=t" alt="Традиционная китайская чайная церемония">
           <img src="https://images.satu.kz/48395853_w500_h500_kitajskij-chernyj-chaj.jpg" alt="Разные и редкие сорта">
           <img src="https://cdn.culture.ru/images/cdf74221-6be7-5428-ae0b-c745edcaaeaf" alt="Чайные аксессуары и заварочный чайник">
+        </div>
+        <!-- Добавленная кнопка в разделе галереи -->
+        <div style="text-align: center; margin-top: 30px;">
+          <a href="order.html" class="btn">Забронировать участие</a>
         </div>
       </div>
     </section>
