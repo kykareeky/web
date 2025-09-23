@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     puer: null
   };
   
-  // Категории чая с русскими названиями
+  // ктегории чая
   const categoryNames = {
     black: "Чёрный чай",
     green: "Зелёный чай",
@@ -21,13 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
     puer: "Пуэр"
   };
   
-  // Функция для отображения выбранных чаев
+  //для отображения выбранных чаев
   function updateSelectedTeasDisplay() {
     selectedTeasContainer.innerHTML = '';
     let hasSelection = false;
     let totalPrice = 0;
     
-    // Проверяем, есть ли выбранные чаи
+    // есть ли выбранные чаи
     for (const category in selectedTeas) {
       if (selectedTeas[category]) {
         hasSelection = true;
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     
-    // Отображаем выбранные чаи по категориям
+    // выбранные чаи по категориям
     for (const category in selectedTeas) {
       const categoryDiv = document.createElement('div');
       categoryDiv.className = 'selected-category';
@@ -70,11 +70,11 @@ document.addEventListener('DOMContentLoaded', function() {
       selectedTeasContainer.appendChild(categoryDiv);
     }
     
-    // Отображаем общую стоимость
+    //общая стоимость
     totalPriceElement.textContent = `Стоимость заказа: ${totalPrice}₽`;
     totalPriceElement.style.display = 'block';
     
-    // Обновляем скрытые поля формы
+    // скрытые поля формы
     updateFormHiddenFields();
   }
   
