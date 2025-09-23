@@ -718,3 +718,147 @@ body {
     text-align: center;
   }
 }
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: var(--light-color);
+  border-radius: 8px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border: 2px solid var(--primary-color);
+  background-color: white;
+  color: var(--primary-color);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.filter-btn:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.filter-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Стили для выбранных чаев */
+.selected-tea-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: var(--light-color);
+  border-radius: 6px;
+  border-left: 4px solid var(--accent-color);
+}
+
+.selected-tea-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-remove {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+  cursor: pointer;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-remove:hover {
+  color: var(--accent-color);
+}
+
+.no-selection {
+  text-align: center;
+  color: var(--secondary-color);
+  font-style: italic;
+  padding: 20px;
+}
+
+/* Адаптивность для фильтров */
+@media (max-width: 768px) {
+  .filters-container {
+    justify-content: center;
+  }
+  
+  .filter-btn {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+}
+.selected-category {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.selected-category:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.selected-category strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--primary-color);
+}
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px 0;
+}
+
+.btn-quantity {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--primary-color);
+  background: white;
+  color: var(--primary-color);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.btn-quantity:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.quantity-display {
+  font-weight: bold;
+  min-width: 60px;
+  text-align: center;
+}
+
+.item-total {
+  font-weight: bold;
+  color: var(--secondary-color);
+  margin-left: 10px;
+}
+
+.selected-tea-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
