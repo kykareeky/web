@@ -1,3 +1,3 @@
 # web
 Лабораторные работы по дисциплине "Основы веб-технологий". Власова Мария 241-352.
-https://kykareeky.netlify.app/
+https://kykareeky.github.io/web/
