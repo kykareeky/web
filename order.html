@@ -39,7 +39,7 @@
         
         <!-- Правая колонка - форма заказа -->
         <div class="order-form-container">
-          <form id="orderForm" method="POST" action="https://httpbin.org/post">
+          <form id="orderForm">
             <h3>Ваш заказ</h3>
             
             <div class="selected-teas" id="selected-teas">
@@ -101,6 +101,24 @@
           </form>
         </div>
       </div>
+
+      <!-- Блок для отображения данных заказа -->
+      <section id="order-data" class="section" style="display: none; margin-top: 40px;">
+        <div class="container">
+          <h2>Данные заказа</h2>
+          <div class="contact-info">
+            <p><strong>Имя:</strong> <span id="display-order-name"></span></p>
+            <p><strong>Email:</strong> <span id="display-order-email"></span></p>
+            <p><strong>Телефон:</strong> <span id="display-order-phone"></span></p>
+            <p><strong>Адрес:</strong> <span id="display-order-address"></span></p>
+            <p><strong>Время доставки:</strong> <span id="display-order-delivery-time"></span></p>
+            <p><strong>Комментарии:</strong> <span id="display-order-comments"></span></p>
+            <p><strong>Рассылка:</strong> <span id="display-order-newsletter"></span></p>
+            <p><strong>Выбранные чаи:</strong> <span id="display-order-teas"></span></p>
+            <p><strong>Общая стоимость:</strong> <span id="display-order-total"></span></p>
+          </div>
+        </div>
+      </section>
     </div>
   </main>
 
@@ -115,5 +133,70 @@
   <script src="data.js"></script>
   <script src="display-teas.js"></script>
   <script src="order.js"></script>
+
+  <script>
+    // Обработка формы заказа
+    document.addEventListener('DOMContentLoaded', function() {
+      const orderForm = document.getElementById('orderForm');
+      
+      orderForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const orderData = {};
+        
+        for (let [key, value] of formData.entries()) {
+          orderData[key] = value;
+        }
+        
+        // Добавляем информацию о выбранных чаях
+        orderData.selectedTeas = window.selectedTeas || [];
+        orderData.totalPrice = calculateTotalPrice();
+        
+        // Сохраняем данные заказа
+        sessionStorage.setItem('orderData', JSON.stringify(orderData));
+        
+        // Показываем данные заказа
+        showOrderData(orderData);
+        
+        alert('Заказ оформлен! Данные сохранены.');
+      });
+
+      // Показываем данные заказа при загрузке страницы
+      const orderData = sessionStorage.getItem('orderData');
+      if (orderData) {
+        showOrderData(JSON.parse(orderData));
+        sessionStorage.removeItem('orderData');
+      }
+    });
+
+    function calculateTotalPrice() {
+      const totalElement = document.getElementById('total-price');
+      if (totalElement.style.display === 'none') return '0 ₽';
+      
+      const totalText = totalElement.textContent;
+      const match = totalText.match(/(\d+)₽/);
+      return match ? match[0] : '0 ₽';
+    }
+
+    function showOrderData(data) {
+      const deliveryTimeNames = {
+        'asap': 'Как можно скорее',
+        'specific': 'К указанному времени'
+      };
+
+      document.getElementById('display-order-name').textContent = data.name || 'Не указано';
+      document.getElementById('display-order-email').textContent = data.email || 'Не указано';
+      document.getElementById('display-order-phone').textContent = data.phone || 'Не указано';
+      document.getElementById('display-order-address').textContent = data.address || 'Не указано';
+      document.getElementById('display-order-delivery-time').textContent = deliveryTimeNames[data.delivery_time] || 'Не указано';
+      document.getElementById('display-order-comments').textContent = data.comments || 'Не указано';
+      document.getElementById('display-order-newsletter').textContent = data.newsletter ? 'Да' : 'Нет';
+      document.getElementById('display-order-teas').textContent = data.selectedTeas.map(tea => tea.name).join(', ') || 'Не выбрано';
+      document.getElementById('display-order-total').textContent = data.totalPrice || '0 ₽';
+      
+      document.getElementById('order-data').style.display = 'block';
+    }
+  </script>
 </body>
 </html>

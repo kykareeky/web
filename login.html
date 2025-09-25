@@ -3,38 +3,116 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Polytea — Вход в систему</title>
+  <title>Polytea — Сделать заказ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="print.css" media="print">
 </head>
-<body class="login-page">
-  <div class="login-container">
-    <form class="login-form" method="POST" action="https://httpbin.org/post">
-      <h2>Вход в систему</h2>
-      <div class="form-group">
-        <label for="login">Логин:</label>
-        <input type="text" id="login" name="login" required>
+<body>
+  <header class="header">
+    <div class="container header__row">
+      <a class="logo" href="index.html">Polytea</a>
+      <nav class="nav" aria-label="Основная навигация">
+        <ul class="nav__list">
+          <li><a href="index.html#about">О нас</a></li>
+          <li><a href="index.html#products">Каталог</a></li>
+          <li><a href="index.html#gallery">Галерея</a></li>
+          <li><a href="traditions.html">Традиции</a></li>
+          <li><a href="index.html#contacts">Контакты</a></li>
+          <li><a href="login.html">Вход</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="order-page">
+    <div class="container">
+      <h2>Выберите чай</h2>
+      
+      <div class="order-layout">
+        <!-- Левая колонка - выбор чая -->
+        <div class="teas-container" id="teas-container">
+          <!-- Чаи будут добавлены через JavaScript -->
+        </div>
+        
+        <!-- Правая колонка - форма заказа -->
+        <div class="order-form-container">
+          <form id="orderForm" method="POST" action="https://httpbin.org/post">
+            <h3>Ваш заказ</h3>
+            
+            <div class="selected-teas" id="selected-teas">
+              <!-- Выбранные чаи -->
+            </div>
+            
+            <div class="total-price" id="total-price" style="display: none;">
+              <!-- Общая стоимость  -->
+            </div>
+            
+            <div class="form-group">
+              <label for="name">Имя:</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="newsletter">
+                <span>Получать информацию о скидках и акциях</span>
+              </label>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Номер телефона:</label>
+              <input type="tel" id="phone" name="phone" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="address">Адрес доставки:</label>
+              <textarea id="address" name="address" rows="2" required></textarea>
+              <small>Доставка осуществляется только по Москве</small>
+            </div>
+            
+            <div class="form-group">
+              <label>Время доставки:</label>
+              <div class="radio-group">
+                <label>
+                  <input type="radio" name="delivery_time" value="asap" required>
+                  Как можно скорее
+                </label>
+                <label>
+                  <input type="radio" name="delivery_time" value="specific">
+                  К указанному времени
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="comments">Комментарии к заказу:</label>
+              <textarea id="comments" name="comments" rows="3"></textarea>
+            </div>
+            
+            <button type="submit" class="btn">Оформить заказ</button>
+          </form>
+        </div>
       </div>
-      
-      <div class="form-group">
-        <label for="password">Пароль:</label>
-        <input type="password" id="password" name="password" required>
-      </div>
-      
-      <div class="form-group">
-        <label class="checkbox-label">
-          <input type="checkbox" name="remember">
-          <span>Запомнить меня</span>
-        </label>
-      </div>
-      
-      <button type="submit" class="btn">Войти</button>
-      
-      <p class="login-link">Вернуться на <a href="index.html">главную страницу</a></p>
-    </form>
-  </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__row">
+      <p>© 2025 Polytea. Все права не защищены.</p>
+      <p>Мы в соцсетях: <a href="#" aria-label="Max">Max</a> · <a href="#" aria-label="Telegram">Telegram</a> · <a href="#" aria-label="VK">VK</a></p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="display-teas.js"></script>
+  <script src="order.js"></script>
 </body>
 </html>
