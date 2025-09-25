@@ -39,7 +39,7 @@
         
         <!-- Правая колонка - форма заказа -->
         <div class="order-form-container">
-          <form id="orderForm">
+          <form id="orderForm" method="POST" action="https://httpbin.org/post">
             <h3>Ваш заказ</h3>
             
             <div class="selected-teas" id="selected-teas">
@@ -160,6 +160,9 @@
         showOrderData(orderData);
         
         alert('Заказ оформлен! Данные сохранены.');
+        
+        // Отправляем форму на httpbin
+        this.submit();
       });
 
       // Показываем данные заказа при загрузке страницы
