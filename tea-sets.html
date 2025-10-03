@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Polytea — Собрать чайный набор</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header__row">
+      <a class="logo" href="index.html">Polytea</a>
+      <nav class="nav" aria-label="Основная навигация">
+        <ul class="nav__list">
+          <li><a href="index.html#about">О нас</a></li>
+          <li><a href="index.html#products">Каталог</a></li>
+          <li><a href="index.html#gallery">Галерея</a></li>
+          <li><a href="traditions.html">Традиции</a></li>
+          <li><a href="tea-sets.html">Собрать набор</a></li>
+          <li><a href="order.html">Заказ</a></li>
+          <li><a href="index.html#contacts">Контакты</a></li>
+          <li><a href="login.html">Вход</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="tea-sets-page">
+    <div class="container">
+      <h2>Собрать чайный набор</h2>
+      
+      <div class="tea-sets-info">
+        <p>Выберите компоненты для вашего идеального чайного набора. Десерты можно добавить к любому набору.</p>
+        <p><strong>Совет:</strong> Нажмите на готовый набор ниже, чтобы автоматически добавить все его компоненты!</p>
+      </div>
+
+      <!-- Блок с доступными вариантами наборов -->
+      <section class="available-sets">
+        <h3>Готовые наборы (нажмите для быстрого выбора)</h3>
+        <div class="sets-grid" id="sets-grid">
+          <!-- Наборы будут добавлены через JavaScript -->
+        </div>
+      </section>
+
+      <!-- Блок выбора компонентов -->
+      <section class="selection-section">
+        <div class="categories-grid">
+          <!-- Чай -->
+          <div class="category-block">
+            <h4>Выберите чай</h4>
+            <div class="items-grid" id="tea-items">
+              <!-- Чайные варианты будут добавлены через JavaScript -->
+            </div>
+          </div>
+
+          <!-- Аксессуары -->
+          <div class="category-block">
+            <h4>Аксессуары</h4>
+            <div class="items-grid" id="accessory-items">
+              <!-- Аксессуары будут добавлены через JavaScript -->
+            </div>
+          </div>
+
+          <!-- Десерты -->
+          <div class="category-block">
+            <h4>Десерты</h4>
+            <div class="items-grid" id="dessert-items">
+              <!-- Десерты будут добавлены через JavaScript -->
+            </div>
+            <p class="dessert-note">Десерты можно добавить к любому набору</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Форма заказа -->
+      <section class="order-section">
+        <h3>Ваш набор</h3>
+        <form id="teaSetForm" method="POST" action="https://httpbin.org/post">
+          <div class="selected-items" id="selected-items">
+            <p>Выберите компоненты для вашего чайного набора</p>
+          </div>
+          
+          <div class="form-group">
+            <label for="customer-name">Ваше имя:</label>
+            <input type="text" id="customer-name" name="customer-name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="customer-phone">Телефон:</label>
+            <input type="tel" id="customer-phone" name="customer-phone" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="delivery-address">Адрес доставки:</label>
+            <textarea id="delivery-address" name="delivery-address" rows="2" required></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-large">Оформить заказ набора</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <!-- Контейнер для уведомлений -->
+  <div id="notification-container"></div>
+
+  <footer class="footer">
+    <div class="container footer__row">
+      <p>© 2025 Polytea. Все права не защищены.</p>
+      <p>Мы в соцсетях: <a href="#" aria-label="Max">Max</a> · <a href="#" aria-label="Telegram">Telegram</a> · <a href="#" aria-label="VK">VK</a></p>
+    </div>
+  </footer>
+
+  <!-- Подключаем скрипты -->
+  <script src="data.js"></script>
+  
+  <script>
+    // tea-sets.js - весь функционал сборки и валидации наборов
+    document.addEventListener('DOMContentLoaded', function() {
+      const setsGrid = document.getElementById('sets-grid');
+      const selectedItemsContainer = document.getElementById('selected-items');
+      const teaItemsContainer = document.getElementById('tea-items');
+      const accessoryItemsContainer = document.getElementById('accessory-items');
+      const dessertItemsContainer = document.getElementById('dessert-items');
+      const teaSetForm = document.getElementById('teaSetForm');
+      const notificationContainer = document.getElementById('notification-container');
+      
+      // Выбранные пользователем элементы
+      let selectedItems = [];
+      
+      // Инициализация
+      displayAvailableSets();
+      displaySelectionItems();
+      
+      // Отображаем доступные наборы
+      function displayAvailableSets() {
+        setsGrid.innerHTML = '';
+        
+        teaSets.availableSets.forEach(set => {
+          const setElement = document.createElement('div');
+          setElement.className = 'tea-set';
+          setElement.style.cursor = 'pointer';
+          
+          const itemsHTML = set.items.map(itemKey => {
+            const item = findItemByKeyword(itemKey);
+            return item ? `<span class="tea-set-item">${item.name}</span>` : '';
+          }).join('');
+          
+          setElement.innerHTML = `
+            <h4>${set.name}</h4>
+            <div class="tea-set-items">${itemsHTML}</div>
+            <p class="tea-set-description">${set.description}</p>
+            <button class="btn btn-small add-set-btn">Выбрать этот набор</button>
+          `;
+          
+          // Добавляем обработчик для выбора набора
+          const addButton = setElement.querySelector('.add-set-btn');
+          addButton.addEventListener('click', function(e) {
+            e.stopPropagation(); // Предотвращаем всплытие события
+            selectTeaSet(set);
+          });
+          
+          // Также добавляем обработчик на весь блок набора
+          setElement.addEventListener('click', function() {
+            selectTeaSet(set);
+          });
+          
+          setsGrid.appendChild(setElement);
+        });
+      }
+      
+      // Функция выбора готового набора
+      function selectTeaSet(set) {
+        // Очищаем текущий выбор
+        clearAllSelections();
+        
+        // Добавляем все элементы набора
+        set.items.forEach(itemKey => {
+          const item = findItemByKeyword(itemKey);
+          if (item) {
+            addItemToSelection(item.keyword, getItemCategory(item.keyword), item.name);
+          }
+        });
+        
+        updateSelectedItemsDisplay();
+        showNotification(`Набор "${set.name}" добавлен в ваш заказ!`);
+      }
+      
+      // Очищаем все выбранные элементы
+      function clearAllSelections() {
+        selectedItems = [];
+        
+        // Снимаем выделение со всех элементов
+        document.querySelectorAll('.tea-item.selected').forEach(item => {
+          item.classList.remove('selected');
+        });
+      }
+      
+      // Добавляем элемент в выбор
+      function addItemToSelection(keyword, category, name) {
+        const itemElement = document.querySelector(`.tea-item[data-keyword="${keyword}"]`);
+        
+        if (itemElement && !selectedItems.find(item => item.keyword === keyword)) {
+          selectedItems.push({ keyword, category, name });
+          itemElement.classList.add('selected');
+        }
+      }
+      
+      // Получаем категорию элемента по ключевому слову
+      function getItemCategory(keyword) {
+        for (const category in teaSets.categories) {
+          if (teaSets.categories[category].find(item => item.keyword === keyword)) {
+            return category;
+          }
+        }
+        return 'tea'; // По умолчанию
+      }
+      
+      // Отображаем элементы для выбора
+      function displaySelectionItems() {
+        // Чай
+        teaItemsContainer.innerHTML = '';
+        teaSets.categories.tea.forEach(item => {
+          createItemElement(item, 'tea', teaItemsContainer);
+        });
+        
+        // Аксессуары
+        accessoryItemsContainer.innerHTML = '';
+        teaSets.categories.accessories.forEach(item => {
+          createItemElement(item, 'accessories', accessoryItemsContainer);
+        });
+        
+        // Десерты
+        dessertItemsContainer.innerHTML = '';
+        teaSets.categories.desserts.forEach(item => {
+          createItemElement(item, 'desserts', dessertItemsContainer);
+        });
+      }
+      
+      // Создаем элемент для выбора
+      function createItemElement(item, category, container) {
+        const itemElement = document.createElement('div');
+        itemElement.className = 'tea-item';
+        itemElement.setAttribute('data-keyword', item.keyword);
+        itemElement.setAttribute('data-category', category);
+        
+        itemElement.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <span>${item.name}</span>
+        `;
+        
+        itemElement.addEventListener('click', function() {
+          toggleItemSelection(item.keyword, category, item.name);
+        });
+        
+        container.appendChild(itemElement);
+      }
+      
+      // Функция для поиска элемента по ключевому слову
+      function findItemByKeyword(keyword) {
+        for (const category in teaSets.categories) {
+          const found = teaSets.categories[category].find(item => item.keyword === keyword);
+          if (found) return found;
+        }
+        return null;
+      }
+      
+      // Переключаем выбор элемента
+      function toggleItemSelection(keyword, category, name) {
+        const itemElement = document.querySelector(`.tea-item[data-keyword="${keyword}"]`);
+        const index = selectedItems.findIndex(item => item.keyword === keyword);
+        
+        if (index === -1) {
+          // Добавляем элемент
+          selectedItems.push({ keyword, category, name });
+          itemElement.classList.add('selected');
+        } else {
+          // Удаляем элемент
+          selectedItems.splice(index, 1);
+          itemElement.classList.remove('selected');
+        }
+        
+        updateSelectedItemsDisplay();
+      }
+      
+      // Обновляем отображение выбранных элементов
+      function updateSelectedItemsDisplay() {
+        selectedItemsContainer.innerHTML = '';
+        
+        if (selectedItems.length === 0) {
+          selectedItemsContainer.innerHTML = '<p>Выберите компоненты для вашего чайного набора</p>';
+          return;
+        }
+        
+        // Группируем по категориям
+        const itemsByCategory = {};
+        selectedItems.forEach(item => {
+          if (!itemsByCategory[item.category]) {
+            itemsByCategory[item.category] = [];
+          }
+          itemsByCategory[item.category].push(item);
+        });
+        
+        // Отображаем выбранные элементы
+        for (const category in itemsByCategory) {
+          const categoryTitle = document.createElement('strong');
+          categoryTitle.textContent = getCategoryName(category) + ':';
+          selectedItemsContainer.appendChild(categoryTitle);
+          
+          itemsByCategory[category].forEach(item => {
+            const itemElement = document.createElement('span');
+            itemElement.className = 'selected-item';
+            itemElement.textContent = item.name;
+            selectedItemsContainer.appendChild(itemElement);
+          });
+          
+          selectedItemsContainer.appendChild(document.createElement('br'));
+        }
+      }
+      
+      // Получаем читаемое название категории
+      function getCategoryName(category) {
+        const names = {
+          'tea': 'Чай',
+          'accessories': 'Аксессуары', 
+          'desserts': 'Десерты'
+        };
+        return names[category] || category;
+      }
+      
+      // Обработка отправки формы
+      teaSetForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Проверяем, соответствует ли выбранный набор одному из доступных
+        const isValidSet = validateTeaSet();
+        
+        if (isValidSet.valid) {
+          // Если набор валиден, отправляем форму
+          this.submit();
+        } else {
+          // Если набор невалиден, показываем уведомление
+          showNotification(isValidSet.message);
+        }
+      });
+      
+      // Функция проверки чайного набора
+      function validateTeaSet() {
+        const selectedKeywords = selectedItems.map(item => item.keyword);
+        
+        // Проверяем каждый доступный набор
+        for (const set of teaSets.availableSets) {
+          // Проверяем, содержит ли выбранный набор все элементы этого набора
+          const hasAllItems = set.items.every(item => selectedKeywords.includes(item));
+          
+          if (hasAllItems) {
+            // Дополнительные элементы (десерты) разрешены
+            return { valid: true, message: '' };
+          }
+        }
+        
+        // Если не соответствует ни одному набору, определяем чего не хватает
+        return findMissingItems(selectedKeywords);
+      }
+      
+      // Функция поиска недостающих элементов
+      function findMissingItems(selectedKeywords) {
+        let bestMatch = null;
+        let minMissing = Infinity;
+        
+        // Находим набор с минимальным количеством недостающих элементов
+        for (const set of teaSets.availableSets) {
+          const missingItems = set.items.filter(item => !selectedKeywords.includes(item));
+          
+          if (missingItems.length < minMissing) {
+            minMissing = missingItems.length;
+            bestMatch = { set, missingItems };
+          }
+        }
+        
+        if (bestMatch && bestMatch.missingItems.length > 0) {
+          const missingNames = bestMatch.missingItems.map(keyword => {
+            const item = findItemByKeyword(keyword);
+            return item ? item.name : keyword;
+          }).join(', ');
+          
+          return {
+            valid: false,
+            message: `Для завершения набора "${bestMatch.set.name}" добавьте: ${missingNames}`
+          };
+        }
+        
+        return {
+          valid: false,
+          message: "Выберите компоненты для одного из доступных чайных наборов"
+        };
+      }
+      
+      // Функция показа уведомления
+      function showNotification(message) {
+        // Создаем оверлей
+        const overlay = document.createElement('div');
+        overlay.className = 'notification-overlay';
+        
+        // Создаем уведомление
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.innerHTML = `
+          <h4>Уведомление</h4>
+          <p>${message}</p>
+          <button class="notification-btn">Окей</button>
+        `;
+        
+        // Добавляем обработчик для кнопки
+        const button = notification.querySelector('.notification-btn');
+        button.addEventListener('click', function() {
+          notificationContainer.innerHTML = '';
+        });
+        
+        // Добавляем обработчик для оверлея
+        overlay.addEventListener('click', function() {
+          notificationContainer.innerHTML = '';
+        });
+        
+        // Добавляем элементы в контейнер
+        notificationContainer.appendChild(overlay);
+        notificationContainer.appendChild(notification);
+      }
+    });
+  </script>
+</body>
+</html>
