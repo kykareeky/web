@@ -36,70 +36,76 @@ document.addEventListener('DOMContentLoaded', function() {
     ]
   };
 
-  // Сортируем чаи по алфавиту
-  const sortedTeas = [...teas].sort((a, b) => a.name.localeCompare(b.name));
-  
-  // Группируем чаи по категориям
-  const teasByCategory = {};
-  sortedTeas.forEach(tea => {
-    if (!teasByCategory[tea.category]) {
-      teasByCategory[tea.category] = [];
-    }
-    teasByCategory[tea.category].push(tea);
-  });
-
-  // Создаем секции для каждой категории
-  for (const category in teasByCategory) {
-    const categorySection = document.createElement('section');
-    categorySection.className = 'tea-category';
-    categorySection.setAttribute('data-category', category);
+  // Загружаем данные через API
+  loadDishes().then(loadedTeas => {
+    // Сортируем чаи по алфавиту
+    const sortedTeas = [...loadedTeas].sort((a, b) => a.name.localeCompare(b.name));
     
-    const categoryTitle = document.createElement('h3');
-    categoryTitle.textContent = getCategoryName(category);
-    categorySection.appendChild(categoryTitle);
-    
-    // Создаем блок фильтров (если есть фильтры для этой категории)
-    if (categoryFilters[category]) {
-      const filtersContainer = document.createElement('div');
-      filtersContainer.className = 'filters-container';
-      
-      // Кнопка "Все"
-      const allButton = document.createElement('button');
-      allButton.className = 'filter-btn active';
-      allButton.textContent = 'Все';
-      allButton.setAttribute('data-kind', 'all');
-      allButton.addEventListener('click', function() {
-        filterTeas(category, 'all', this);
-      });
-      filtersContainer.appendChild(allButton);
-      
-      // Кнопки фильтров
-      categoryFilters[category].forEach(filter => {
-        const filterButton = document.createElement('button');
-        filterButton.className = 'filter-btn';
-        filterButton.textContent = filter.name;
-        filterButton.setAttribute('data-kind', filter.kind);
-        filterButton.addEventListener('click', function() {
-          filterTeas(category, filter.kind, this);
-        });
-        filtersContainer.appendChild(filterButton);
-      });
-      
-      categorySection.appendChild(filtersContainer);
-    }
-    
-    const teasGrid = document.createElement('div');
-    teasGrid.className = 'teas-grid';
-    teasGrid.id = `teas-grid-${category}`;
-    
-    teasByCategory[category].forEach(tea => {
-      const teaCard = createTeaCard(tea);
-      teasGrid.appendChild(teaCard);
+    // Группируем чаи по категориям
+    const teasByCategory = {};
+    sortedTeas.forEach(tea => {
+      if (!teasByCategory[tea.category]) {
+        teasByCategory[tea.category] = [];
+      }
+      teasByCategory[tea.category].push(tea);
     });
-    
-    categorySection.appendChild(teasGrid);
-    teasContainer.appendChild(categorySection);
-  }
+
+    // Создаем секции для каждой категории
+    for (const category in teasByCategory) {
+      const categorySection = document.createElement('section');
+      categorySection.className = 'tea-category';
+      categorySection.setAttribute('data-category', category);
+      
+      const categoryTitle = document.createElement('h3');
+      categoryTitle.textContent = getCategoryName(category);
+      categorySection.appendChild(categoryTitle);
+      
+      // Создаем блок фильтров (если есть фильтры для этой категории)
+      if (categoryFilters[category]) {
+        const filtersContainer = document.createElement('div');
+        filtersContainer.className = 'filters-container';
+        
+        // Кнопка "Все"
+        const allButton = document.createElement('button');
+        allButton.className = 'filter-btn active';
+        allButton.textContent = 'Все';
+        allButton.setAttribute('data-kind', 'all');
+        allButton.addEventListener('click', function() {
+          filterTeas(category, 'all', this);
+        });
+        filtersContainer.appendChild(allButton);
+        
+        // Кнопки фильтров
+        categoryFilters[category].forEach(filter => {
+          const filterButton = document.createElement('button');
+          filterButton.className = 'filter-btn';
+          filterButton.textContent = filter.name;
+          filterButton.setAttribute('data-kind', filter.kind);
+          filterButton.addEventListener('click', function() {
+            filterTeas(category, filter.kind, this);
+          });
+          filtersContainer.appendChild(filterButton);
+        });
+        
+        categorySection.appendChild(filtersContainer);
+      }
+      
+      const teasGrid = document.createElement('div');
+      teasGrid.className = 'teas-grid';
+      teasGrid.id = `teas-grid-${category}`;
+      
+      teasByCategory[category].forEach(tea => {
+        const teaCard = createTeaCard(tea);
+        teasGrid.appendChild(teaCard);
+      });
+      
+      categorySection.appendChild(teasGrid);
+      teasContainer.appendChild(categorySection);
+    }
+  }).catch(error => {
+    console.error('Ошибка загрузки данных:', error);
+    teasContainer.innerHTML = '<p>Ошибка загрузки данных о чаях. Пожалуйста, попробуйте позже.</p>';
+  });
   
   function getCategoryName(category) {
     const names = {
@@ -157,6 +163,29 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+// Функция для загрузки данных через API
+async function loadDishes() {
+  try {
+    const response = await fetch('https://edu.std-900.ist.mospolytech.ru/labs/api/dishes');
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const dishes = await response.json();
+    
+    // Заполняем глобальный массив teas для совместимости с существующим кодом
+    teas.length = 0; // Очищаем массив
+    teas.push(...dishes); // Добавляем данные из API
+    
+    return dishes;
+  } catch (error) {
+    console.error('Ошибка при загрузке данных:', error);
+    throw error;
+  }
+}
+
 function createTeaCard(tea) {
   const card = document.createElement('div');
   card.className = 'tea-card';
