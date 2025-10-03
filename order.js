@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Названия категорий чая
   const categoryNames = {
     black: "Чёрный чай",
-    green: "Зелёный чай",
+    green: "Зелёный чай", 
     oolong: "Улун",
     puer: "Пуэр",
     herbal: "Травяной чай",
@@ -126,7 +126,10 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       
       // Выделяем карточку
-      document.querySelector(`.tea-card[data-dish="${teaKeyword}"]`).classList.add('selected');
+      const teaCard = document.querySelector(`.tea-card[data-dish="${teaKeyword}"]`);
+      if (teaCard) {
+        teaCard.classList.add('selected');
+      }
     }
     
     updateSelectedTeasDisplay();
@@ -154,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateSelectedTeasDisplay();
   };
   
-  // Функция для удаления чая из заказа
+  // Функция для удаления чая из заказ
   window.removeFromOrder = function(teaKeyword) {
     const teaIndex = selectedTeas.findIndex(t => t.keyword === teaKeyword);
     if (teaIndex === -1) return;
@@ -163,7 +166,10 @@ document.addEventListener('DOMContentLoaded', function() {
     selectedTeas.splice(teaIndex, 1);
     
     // Снимаем выделение с карточки
-    document.querySelector(`.tea-card[data-dish="${teaKeyword}"]`).classList.remove('selected');
+    const teaCard = document.querySelector(`.tea-card[data-dish="${teaKeyword}"]`);
+    if (teaCard) {
+      teaCard.classList.remove('selected');
+    }
     
     updateSelectedTeasDisplay();
   };
