@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (selectedTeas.length === 0) {
       const noSelection = document.createElement('p');
-      noSelection.textContent = 'Чай не выбран';
+      noSelection.textContent = 'Здесь будет ваш выбор';
       noSelection.className = 'no-selection';
       selectedTeasContainer.appendChild(noSelection);
       totalPriceElement.style.display = 'none';
