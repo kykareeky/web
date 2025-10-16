@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const totalPriceElement = document.getElementById('total-price');
   
   // Выбранные чаи с количеством
-  let selectedTeas = [];
+  window.selectedTeas = [];
   
   // Названия категорий чая
   const categoryNames = {
