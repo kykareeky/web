@@ -19,8 +19,8 @@
           <li><a href="index.html#products">Каталог</a></li>
           <li><a href="index.html#gallery">Галерея</a></li>
           <li><a href="traditions.html">Традиции</a></li>
-          <li><a href="tea-sets.html">Собрать набор</a></li>
           <li><a href="order.html">Заказ</a></li>
+          <li><a href="tea-sets.html">Собрать набор</a></li>
           <li><a href="index.html#contacts">Контакты</a></li>
           <li><a href="login.html">Вход</a></li>
         </ul>
@@ -37,74 +37,45 @@
         <p><strong>Совет:</strong> Нажмите на готовый набор ниже, чтобы автоматически добавить все его компоненты!</p>
       </div>
 
-      <!-- Блок с доступными вариантами наборов -->
       <section class="available-sets">
         <h3>Готовые наборы (нажмите для быстрого выбора)</h3>
         <div class="sets-grid" id="sets-grid">
-          <!-- Наборы будут добавлены через JavaScript -->
-        </div>
+          </div>
       </section>
 
-      <!-- Блок выбора компонентов -->
       <section class="selection-section">
         <div class="categories-grid">
-          <!-- Чай -->
           <div class="category-block">
             <h4>Выберите чай</h4>
             <div class="items-grid" id="tea-items">
-              <!-- Чайные варианты будут добавлены через JavaScript -->
-            </div>
+              </div>
           </div>
 
-          <!-- Аксессуары -->
           <div class="category-block">
             <h4>Аксессуары</h4>
             <div class="items-grid" id="accessory-items">
-              <!-- Аксессуары будут добавлены через JavaScript -->
-            </div>
+              </div>
           </div>
 
-          <!-- Десерты -->
           <div class="category-block">
             <h4>Десерты</h4>
             <div class="items-grid" id="dessert-items">
-              <!-- Десерты будут добавлены через JavaScript -->
-            </div>
+              </div>
             <p class="dessert-note">Десерты можно добавить к любому набору</p>
           </div>
         </div>
       </section>
 
-      <!-- Форма заказа -->
       <section class="order-section">
         <h3>Ваш набор</h3>
-        <form id="teaSetForm" method="POST" action="https://httpbin.org/post">
-          <div class="selected-items" id="selected-items">
-            <p>Выберите компоненты для вашего чайного набора</p>
-          </div>
-          
-          <div class="form-group">
-            <label for="customer-name">Ваше имя:</label>
-            <input type="text" id="customer-name" name="customer-name" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="customer-phone">Телефон:</label>
-            <input type="tel" id="customer-phone" name="customer-phone" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="delivery-address">Адрес доставки:</label>
-            <textarea id="delivery-address" name="delivery-address" rows="2" required></textarea>
-          </div>
-          
-          <button type="submit" class="btn btn-large">Оформить заказ набора</button>
-        </form>
+        <div class="selected-items" id="selected-items">
+          <p>Выберите компоненты для вашего чайного набора</p>
+        </div>
+        <button id="add-to-order-btn" class="btn btn-large">Добавить в заказ</button>
       </section>
     </div>
   </main>
 
-  <!-- Контейнер для уведомлений -->
   <div id="notification-container"></div>
 
   <footer class="footer">
@@ -114,28 +85,24 @@
     </div>
   </footer>
 
-  <!-- Подключаем скрипты -->
+  <script src="storage.js"></script>
   <script src="data.js"></script>
   
   <script>
-    // tea-sets.js - весь функционал сборки и валидации наборов
     document.addEventListener('DOMContentLoaded', function() {
       const setsGrid = document.getElementById('sets-grid');
       const selectedItemsContainer = document.getElementById('selected-items');
       const teaItemsContainer = document.getElementById('tea-items');
       const accessoryItemsContainer = document.getElementById('accessory-items');
       const dessertItemsContainer = document.getElementById('dessert-items');
-      const teaSetForm = document.getElementById('teaSetForm');
+      const addToOrderBtn = document.getElementById('add-to-order-btn');
       const notificationContainer = document.getElementById('notification-container');
       
-      // Выбранные пользователем элементы
       let selectedItems = [];
       
-      // Инициализация
       displayAvailableSets();
       displaySelectionItems();
       
-      // Отображаем доступные наборы
       function displayAvailableSets() {
         setsGrid.innerHTML = '';
         
@@ -156,15 +123,13 @@
             <button class="btn btn-small add-set-btn">Выбрать этот набор</button>
           `;
           
-          // Добавляем обработчик для выбора набора
           const addButton = setElement.querySelector('.add-set-btn');
-          addButton.addEventListener('click', function(e) {
-            e.stopPropagation(); // Предотвращаем всплытие события
+          addButton.addEventListener('click', (e) => {
+            e.stopPropagation();
             selectTeaSet(set);
           });
           
-          // Также добавляем обработчик на весь блок набора
-          setElement.addEventListener('click', function() {
+          setElement.addEventListener('click', () => {
             selectTeaSet(set);
           });
           
@@ -172,75 +137,55 @@
         });
       }
       
-      // Функция выбора готового набора
       function selectTeaSet(set) {
-        // Очищаем текущий выбор
         clearAllSelections();
-        
-        // Добавляем все элементы набора
         set.items.forEach(itemKey => {
           const item = findItemByKeyword(itemKey);
           if (item) {
             addItemToSelection(item.keyword, getItemCategory(item.keyword), item.name);
           }
         });
-        
         updateSelectedItemsDisplay();
-        showNotification(`Набор "${set.name}" добавлен в ваш заказ!`);
+        showNotification(`Набор "${set.name}" готов к добавлению в заказ!`);
       }
       
-      // Очищаем все выбранные элементы
       function clearAllSelections() {
         selectedItems = [];
-        
-        // Снимаем выделение со всех элементов
         document.querySelectorAll('.tea-item.selected').forEach(item => {
           item.classList.remove('selected');
         });
       }
       
-      // Добавляем элемент в выбор
       function addItemToSelection(keyword, category, name) {
         const itemElement = document.querySelector(`.tea-item[data-keyword="${keyword}"]`);
-        
         if (itemElement && !selectedItems.find(item => item.keyword === keyword)) {
           selectedItems.push({ keyword, category, name });
           itemElement.classList.add('selected');
         }
       }
       
-      // Получаем категорию элемента по ключевому слову
       function getItemCategory(keyword) {
         for (const category in teaSets.categories) {
           if (teaSets.categories[category].find(item => item.keyword === keyword)) {
             return category;
           }
         }
-        return 'tea'; // По умолчанию
+        return null;
       }
       
-      // Отображаем элементы для выбора
       function displaySelectionItems() {
-        // Чай
         teaItemsContainer.innerHTML = '';
-        teaSets.categories.tea.forEach(item => {
-          createItemElement(item, 'tea', teaItemsContainer);
-        });
+        teaSets.categories.tea.forEach(item => createItemElement(item, 'tea', teaItemsContainer));
         
-        // Аксессуары
         accessoryItemsContainer.innerHTML = '';
-        teaSets.categories.accessories.forEach(item => {
-          createItemElement(item, 'accessories', accessoryItemsContainer);
-        });
+        teaSets.categories.accessories.forEach(item => createItemElement(item, 'accessories', accessoryItemsContainer));
         
-        // Десерты
         dessertItemsContainer.innerHTML = '';
-        teaSets.categories.desserts.forEach(item => {
-          createItemElement(item, 'desserts', dessertItemsContainer);
-        });
+        if (teaSets.categories.desserts) {
+          teaSets.categories.desserts.forEach(item => createItemElement(item, 'desserts', dessertItemsContainer));
+        }
       }
       
-      // Создаем элемент для выбора
       function createItemElement(item, category, container) {
         const itemElement = document.createElement('div');
         itemElement.className = 'tea-item';
@@ -248,18 +193,17 @@
         itemElement.setAttribute('data-category', category);
         
         itemElement.innerHTML = `
-          <img src="${item.image}" alt="${item.name}">
+          <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/80x80/f8f4e9/8d5b4c?text=Фото'">
           <span>${item.name}</span>
         `;
         
-        itemElement.addEventListener('click', function() {
+        itemElement.addEventListener('click', () => {
           toggleItemSelection(item.keyword, category, item.name);
         });
         
         container.appendChild(itemElement);
       }
       
-      // Функция для поиска элемента по ключевому слову
       function findItemByKeyword(keyword) {
         for (const category in teaSets.categories) {
           const found = teaSets.categories[category].find(item => item.keyword === keyword);
@@ -268,17 +212,14 @@
         return null;
       }
       
-      // Переключаем выбор элемента
       function toggleItemSelection(keyword, category, name) {
         const itemElement = document.querySelector(`.tea-item[data-keyword="${keyword}"]`);
         const index = selectedItems.findIndex(item => item.keyword === keyword);
         
         if (index === -1) {
-          // Добавляем элемент
           selectedItems.push({ keyword, category, name });
           itemElement.classList.add('selected');
         } else {
-          // Удаляем элемент
           selectedItems.splice(index, 1);
           itemElement.classList.remove('selected');
         }
@@ -286,31 +227,31 @@
         updateSelectedItemsDisplay();
       }
       
-      // Обновляем отображение выбранных элементов
       function updateSelectedItemsDisplay() {
         selectedItemsContainer.innerHTML = '';
         
         if (selectedItems.length === 0) {
           selectedItemsContainer.innerHTML = '<p>Выберите компоненты для вашего чайного набора</p>';
+          addToOrderBtn.disabled = true;
           return;
         }
         
-        // Группируем по категориям
+        addToOrderBtn.disabled = false;
         const itemsByCategory = {};
         selectedItems.forEach(item => {
-          if (!itemsByCategory[item.category]) {
-            itemsByCategory[item.category] = [];
+          const categoryName = getCategoryName(item.category);
+          if (!itemsByCategory[categoryName]) {
+            itemsByCategory[categoryName] = [];
           }
-          itemsByCategory[item.category].push(item);
+          itemsByCategory[categoryName].push(item);
         });
         
-        // Отображаем выбранные элементы
-        for (const category in itemsByCategory) {
+        for (const categoryName in itemsByCategory) {
           const categoryTitle = document.createElement('strong');
-          categoryTitle.textContent = getCategoryName(category) + ':';
+          categoryTitle.textContent = categoryName + ':';
           selectedItemsContainer.appendChild(categoryTitle);
           
-          itemsByCategory[category].forEach(item => {
+          itemsByCategory[categoryName].forEach(item => {
             const itemElement = document.createElement('span');
             itemElement.className = 'selected-item';
             itemElement.textContent = item.name;
@@ -321,7 +262,6 @@
         }
       }
       
-      // Получаем читаемое название категории
       function getCategoryName(category) {
         const names = {
           'tea': 'Чай',
@@ -331,81 +271,24 @@
         return names[category] || category;
       }
       
-      // Обработка отправки формы
-      teaSetForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Проверяем, соответствует ли выбранный набор одному из доступных
-        const isValidSet = validateTeaSet();
-        
-        if (isValidSet.valid) {
-          // Если набор валиден, отправляем форму
-          this.submit();
+      addToOrderBtn.addEventListener('click', function() {
+        if (selectedItems.length > 0) {
+          // Очищаем предыдущий заказ и добавляем новый набор
+          clearOrderStorage();
+          selectedItems.forEach(item => {
+            addToOrderStorage(item.keyword);
+          });
+          showNotification('Ваш набор добавлен в заказ! Теперь вы можете перейти к оформлению на странице "Собрать ланч".');
         } else {
-          // Если набор невалиден, показываем уведомление
-          showNotification(isValidSet.message);
+          showNotification('Пожалуйста, выберите хотя бы один элемент для вашего набора.');
         }
       });
       
-      // Функция проверки чайного набора
-      function validateTeaSet() {
-        const selectedKeywords = selectedItems.map(item => item.keyword);
-        
-        // Проверяем каждый доступный набор
-        for (const set of teaSets.availableSets) {
-          // Проверяем, содержит ли выбранный набор все элементы этого набора
-          const hasAllItems = set.items.every(item => selectedKeywords.includes(item));
-          
-          if (hasAllItems) {
-            // Дополнительные элементы (десерты) разрешены
-            return { valid: true, message: '' };
-          }
-        }
-        
-        // Если не соответствует ни одному набору, определяем чего не хватает
-        return findMissingItems(selectedKeywords);
-      }
-      
-      // Функция поиска недостающих элементов
-      function findMissingItems(selectedKeywords) {
-        let bestMatch = null;
-        let minMissing = Infinity;
-        
-        // Находим набор с минимальным количеством недостающих элементов
-        for (const set of teaSets.availableSets) {
-          const missingItems = set.items.filter(item => !selectedKeywords.includes(item));
-          
-          if (missingItems.length < minMissing) {
-            minMissing = missingItems.length;
-            bestMatch = { set, missingItems };
-          }
-        }
-        
-        if (bestMatch && bestMatch.missingItems.length > 0) {
-          const missingNames = bestMatch.missingItems.map(keyword => {
-            const item = findItemByKeyword(keyword);
-            return item ? item.name : keyword;
-          }).join(', ');
-          
-          return {
-            valid: false,
-            message: `Для завершения набора "${bestMatch.set.name}" добавьте: ${missingNames}`
-          };
-        }
-        
-        return {
-          valid: false,
-          message: "Выберите компоненты для одного из доступных чайных наборов"
-        };
-      }
-      
-      // Функция показа уведомления
       function showNotification(message) {
-        // Создаем оверлей
+        notificationContainer.innerHTML = '';
         const overlay = document.createElement('div');
         overlay.className = 'notification-overlay';
         
-        // Создаем уведомление
         const notification = document.createElement('div');
         notification.className = 'notification';
         notification.innerHTML = `
@@ -414,21 +297,19 @@
           <button class="notification-btn">Окей</button>
         `;
         
-        // Добавляем обработчик для кнопки
-        const button = notification.querySelector('.notification-btn');
-        button.addEventListener('click', function() {
+        const close = () => {
           notificationContainer.innerHTML = '';
-        });
+        };
         
-        // Добавляем обработчик для оверлея
-        overlay.addEventListener('click', function() {
-          notificationContainer.innerHTML = '';
-        });
+        notification.querySelector('.notification-btn').addEventListener('click', close);
+        overlay.addEventListener('click', close);
         
-        // Добавляем элементы в контейнер
         notificationContainer.appendChild(overlay);
         notificationContainer.appendChild(notification);
       }
+
+      // Инициализация кнопки
+      updateSelectedItemsDisplay();
     });
   </script>
 </body>

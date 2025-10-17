@@ -1315,8 +1315,7 @@ body {
     background-color: #fffaf7;
 }
 
-/* ИСПРАВЛЕНИЕ ОШИБКИ РАЗМЕТКИ НА CHECKOUT.HTML (Ошибка 3) */
-/* Отключаем grid-раскладку для контейнера с карточками в чекауте */
+
 #order-items {
     display: flex;
     flex-direction: column;
@@ -1542,3 +1541,67 @@ body {
     border-radius: 4px;
     margin-top: 15px;
 }}
+.order-summary-panel {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--secondary-color);
+    color: var(--light-color);
+    padding: 15px 0;
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 90;
+    display: none;
+}
+
+.order-panel-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Стили для страницы оформления */
+.checkout-page {
+    padding: 40px 0;
+}
+
+.checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.order-composition, .checkout-form-container {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.empty-order {
+    text-align: center;
+    padding: 40px;
+    color: var(--secondary-color);
+}
+
+.empty-order a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.empty-order a:hover {
+    text-decoration: underline;
+}
+
+.order-summary {
+    border-top: 2px solid var(--accent-color);
+    padding-top: 20px;
+    margin-top: 20px;
+    text-align: center;
+}

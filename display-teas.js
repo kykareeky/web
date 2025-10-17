@@ -167,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // Функция для загрузки данных через API
 async function loadDishes() {
   try {
-    // ИСПРАВЛЕНИЕ: Заменяем URL на правильный из условия лабораторной работы
     const response = await fetch('https://edu.std-900.ist.mospolytech.ru/labs/api/dishes');
     
     if (!response.ok) {
